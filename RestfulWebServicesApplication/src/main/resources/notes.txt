@@ -1,0 +1,11 @@
+//Find all Todos of a user
+GET : localhost:8088/{username}/todos
+
+//Delete a todo
+DELETE : localhost:8088/{username}/todos/{todo_id}
+
+//Edit a todo
+PUT : localhost:8088/{username}/todos/{todo_id}
+
+//Add a todo
+POST : localhost:8088/{username}/todos
