@@ -1,14 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TodoDataService } from '../service/data/todo-data.service';
+import {  Router } from '@angular/router';
 
 
 export class Todo{
   constructor( 
     public id:number,
+    public username:string,
     public description:string,
-    public done: boolean,
-    public targetDate: Date
+    public targetDate: Date,
+    public done: boolean
   ){
 
   }
@@ -23,19 +26,45 @@ export class Todo{
 })
 export class ListTodosComponent implements OnInit{
  
-  todos = [
-    new Todo(1,'Learn To Dance',false,new Date()),
-    new Todo(2,'Become an expert in Angular',false,new Date()),
-    new Todo(3,'Visit America',false,new Date()),
-    new Todo(4,'Learn To fight',false,new Date()),
-  ]
-  todo = {
-    id:1,
-    description:'Learn to Dance'
+  todos:Todo[] = [];  
+  message:string = "";
+
+  constructor(private todoDataService:TodoDataService,private router:Router){
+
   }
+  
 
   ngOnInit(): void {
-     
+     this.refreshTodos();
+  } 
+
+  refreshTodos(){
+    this.todoDataService.retrieveAllTodoos("manohar").subscribe( 
+      response =>{
+        this.todos = response ;
+        // console.log(response);  
+      }
+     ); 
+  }
+
+  deleteTodo(id:number){ 
+    this.todoDataService.deleteTodo("manohar",id).subscribe( 
+      response =>{        
+          // console.log(response);
+          this.message = `Deleted todo ${id} successfully`        
+          this.refreshTodos();
+      }
+    ); 
+    
+  }
+
+  navigateToTodoForm(id:number){
+    console.log(`update todo ${id}`); 
+    this.router.navigate(["manohar/todos",id]);
+  } 
+
+  addTodo(){
+    this.router.navigate(['manohar/todos',-1]);
   }
 
 }

@@ -1,6 +1,15 @@
-
 <div class="container"> 
     <h1>Welcome!</h1>
-    Welcome {{name}}. Welcome to our todo app. You can manage your todos <a routerLink="/todos">here</a> 
+    Welcome {{name}}. Welcome to our todo app. You can manage your todos <a routerLink="/manohar/todos">here</a> 
+</div>
+
+<div class="container"> 
+    Click here to get a customized welcome message
+    <button (click)="getWelcomeMessageWithPathVariable()" class="btn btn-success">Welcome Button</button>
+</div>
+
+<div class="container" *ngIf = "messageFromService"> 
+    <h2>Your Customized Welcome Message</h2>
+    {{messageFromService}}
 </div>
 
